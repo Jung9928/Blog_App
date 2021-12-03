@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/components/custom_elevated_button.dart';
 import 'package:flutter_blog/components/custom_text_form_field.dart';
+import 'package:flutter_blog/util/validator_util.dart';
 import 'package:get/get.dart';
-import 'package:validators/validators.dart';
 
 import 'login_page.dart';
 
@@ -44,28 +44,16 @@ class JoinPage extends StatelessWidget {
         children: [
           CustomTextFormField(
             hint: "Username",
-            funValidator: (String? value) {
-              if (value!.isEmpty) {
-                // 한글이 포함되어 있다면
-                return "공백이 포함될 수 없습니다.";
-              } else if (!isAlpha(value)) {
-                // 공백이 포함되어 있다면
-                return "Username에 한글이 포함될 수 없습니다";
-              } else if (value.length > 12) {
-                return "Username의 길이를 초과하였습니다.";
-              } else {
-                return null;
-              }
-            }, // 익명함수
+            funValidator: validateUserame(),
           ),
           CustomTextFormField(
             hint: "Password",
             funValidator:
-                (value) {}, // value 값은 formfield에서 값을 입력하고 로그인 or 회원가입 버튼을 누르면 value에 입력값이 저장됨.
+                validatePassword(), // value 값은 formfield에서 값을 입력하고 로그인 or 회원가입 버튼을 누르면 value에 입력값이 저장됨.
           ),
           CustomTextFormField(
             hint: "Email",
-            funValidator: (value) {},
+            funValidator: validateEmail(),
           ),
           CustomElevatedButton(
             text: "회원가입",

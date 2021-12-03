@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/components/custom_elevated_button.dart';
 import 'package:flutter_blog/components/custom_text_form_field.dart';
 import 'package:flutter_blog/pages/post/home_page.dart';
+import 'package:flutter_blog/util/validator_util.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
@@ -41,14 +42,22 @@ class LoginPage extends StatelessWidget {
         children: [
           CustomTextFormField(
             hint: "Username",
-            funValidator: (value) {},
+            funValidator: validateUserame(),
           ),
           CustomTextFormField(
             hint: "Password",
-            funValidator: (value) {},
+            funValidator: validatePassword(),
           ),
           CustomElevatedButton(
-              text: "로그인", funPageRoute: () => Get.to(HomePage())),
+            text: "로그인",
+            funPageRoute: () {
+              // !를 사용하여 절대 null값이 될 수 없음을 지정. 그리고 버튼 클릭 시, validate가 실행되어 value값에 입력한 값이 저장.
+              if (_formKey.currentState!.validate()) {
+                // 유효성 검증을 통과하면 이동.
+                Get.to(HomePage());
+              }
+            },
+          ),
         ],
       ),
     );
