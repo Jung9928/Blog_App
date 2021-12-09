@@ -46,3 +46,29 @@ Function validateEmail() {
     }
   };
 }
+
+Function validateTitle() {
+  return (String? value) {
+    if (value!.isEmpty) {
+      // 한글이 포함되어 있다면
+      return "제목에는 공백이 포함될 수 없습니다.";
+    } else if (value.length > 30) {
+      return "제목의 길이를 초과하였습니다.";
+    } else {
+      return null;
+    }
+  };
+}
+
+Function validateContent() {
+  return (String? value) {
+    if (value!.isEmpty) {
+      // 한글이 포함되어 있다면
+      return "내용에는 공백이 포함될 수 없습니다.";
+    } else if (value.length > 500) {
+      return "내용의 길이를 초과하였습니다.";
+    } else {
+      return null;
+    }
+  };
+}
