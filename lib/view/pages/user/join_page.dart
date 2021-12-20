@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/components/custom_elevated_button.dart';
-import 'package:flutter_blog/components/custom_text_form_field.dart';
 import 'package:flutter_blog/util/validator_util.dart';
 import 'package:get/get.dart';
 
-import 'login_page.dart';
+import '../../../view/pages/user/login_page.dart';
+import '../../components/custom_elevated_button.dart';
+import '../../components/custom_text_form_field.dart';
 
 class JoinPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>(); // form상태를 관리하는 key.

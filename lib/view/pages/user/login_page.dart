@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_blog/components/custom_elevated_button.dart';
-import 'package:flutter_blog/components/custom_text_form_field.dart';
-import 'package:flutter_blog/pages/post/home_page.dart';
-import 'package:flutter_blog/pages/user/join_page.dart';
+import 'package:flutter_blog/controller/user_controller.dart';
 import 'package:flutter_blog/util/validator_util.dart';
+import 'package:flutter_blog/view/pages/user/join_page.dart';
 import 'package:get/get.dart';
+
+import '../../components/custom_elevated_button.dart';
+import '../../components/custom_text_form_field.dart';
 
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>(); // form상태를 관리하는 key.
+  final UserController u = Get.put(UserController());
+
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,8 @@ class LoginPage extends StatelessWidget {
               // !를 사용하여 절대 null값이 될 수 없음을 지정. 그리고 버튼 클릭 시, validate가 실행되어 value값에 입력한 값이 저장.
               if (_formKey.currentState!.validate()) {
                 // 유효성 검증을 통과하면 이동.
-                Get.to(HomePage());
+                //Get.to(HomePage());
+                u.login("abc", "1234");
               }
             },
           ),
