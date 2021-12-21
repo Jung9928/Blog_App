@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blog/controller/post_controller.dart';
+import 'package:flutter_blog/controller/user_controller.dart';
 import 'package:flutter_blog/size.dart';
 import 'package:flutter_blog/view/pages/user/login_page.dart';
 import 'package:flutter_blog/view/pages/user/user_info.dart';
@@ -10,29 +12,43 @@ import 'write_page.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // put : 없으면 만들고, 있으면 찾음
+    UserController u = Get.find(); // 싱글톤으로 구현되어있음.
+
+    // 객체 생성(creaet), onInit함수 실행(initialize)
+    PostController p = Get.put(PostController());
+    // p.findAll();
+
     return Scaffold(
       drawer: _navigation(context),
-      appBar: AppBar(),
-      body: ListView.separated(
-        itemCount: 20,
-        itemBuilder: (context, index) {
-          // index는 widget을 그려줄 때마다 카운트한 값을 화면에 숫자로 그려줌.
-          return ListTile(
-            onTap: () {
-              Get.to(DetailPage(index), arguments: "argumetns 속성 테스트");
-            },
-            title: Text("제목1"),
-            leading: Text("1"),
-          );
-        },
-        separatorBuilder: (context, index) {
-          return Divider();
-        },
+      appBar: AppBar(
+        title: Text("${u.isLogin}"),
+        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.add))],
+      ),
+      body: Obx(
+        () => ListView.separated(
+          itemCount: p.posts.length,
+          itemBuilder: (context, index) {
+            // index는 widget을 그려줄 때마다 카운트한 값을 화면에 숫자로 그려줌.
+            return ListTile(
+              onTap: () {
+                Get.to(DetailPage(index), arguments: "argumetns 속성 테스트");
+              },
+              title: Text("${p.posts[index].title}"),
+              leading: Text("${p.posts[index].id}"),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return Divider();
+          },
+        ),
       ),
     );
   }
 
   Widget _navigation(BuildContext context) {
+    UserController u = Get.find();
+
     return Container(
       width: getDrawerWidth(context),
       height: double.infinity,
@@ -72,6 +88,7 @@ class HomePage extends StatelessWidget {
               Divider(), // 옅은 선 표시
               TextButton(
                 onPressed: () {
+                  u.logout();
                   Get.to(LoginPage());
                 },
                 child: Text(

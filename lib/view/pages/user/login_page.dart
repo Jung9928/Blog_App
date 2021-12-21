@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blog/controller/user_controller.dart';
 import 'package:flutter_blog/util/validator_util.dart';
+import 'package:flutter_blog/view/pages/post/home_page.dart';
 import 'package:flutter_blog/view/pages/user/join_page.dart';
 import 'package:get/get.dart';
 
@@ -25,7 +26,7 @@ class LoginPage extends StatelessWidget {
               alignment: Alignment.center,
               height: 200,
               child: Text(
-                "로그인 페이지",
+                "로그인 페이지 ${u.isLogin}",
                 style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
@@ -47,21 +48,32 @@ class LoginPage extends StatelessWidget {
       child: Column(
         children: [
           CustomTextFormField(
+            controller: _username,
             hint: "Username",
             funValidator: validateUserame(),
           ),
           CustomTextFormField(
+            controller: _password,
             hint: "Password",
             funValidator: validatePassword(),
           ),
           CustomElevatedButton(
             text: "로그인",
-            funPageRoute: () {
+            funPageRoute: () async {
               // !를 사용하여 절대 null값이 될 수 없음을 지정. 그리고 버튼 클릭 시, validate가 실행되어 value값에 입력한 값이 저장.
               if (_formKey.currentState!.validate()) {
                 // 유효성 검증을 통과하면 이동.
                 //Get.to(HomePage());
-                u.login("abc", "1234");
+                String token = await u.login(
+                    _username.text.trim(),
+                    _password.text
+                        .trim()); // trim을 사용해서 사용자가 입력한 데이터에 있을 수 있는 공백을 제거
+
+                if (token != "-1") {
+                  Get.to(() => HomePage());
+                } else {
+                  Get.snackbar("로그인 시도", "로그인 실패");
+                }
               }
             },
           ),

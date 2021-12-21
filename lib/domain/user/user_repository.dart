@@ -15,6 +15,13 @@ class UserRepository {
         .login(loginReqDto.toJson()); // Map형식의 데이터(data)를 전달.
 
     dynamic headers = response.headers;
+
+    if (headers["authorization"] == null) {
+      return "-1";
+    } else {
+      String token = headers["authorization"];
+      return token;
+    }
     String token = headers["authorization"];
     return token;
   }

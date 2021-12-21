@@ -20,7 +20,7 @@ class CustomTextFormField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: controller,
-        initialValue: value ?? "", // null이라면 공백을 저장.
+        initialValue: value ?? null, // null이라면 공백을 저장.
         validator: // funValidator함수를 외부에서 받는 이유는 CustomTextFormField의 값이 이메일 or 비밀번호 or 유저명이 될 수 있어서 검증해야 될 값이 다르기 때문에
             funValidator,
         obscureText: hint == "Password" ? true : false, // 비밀번호에만 비밀번호암호표시.
